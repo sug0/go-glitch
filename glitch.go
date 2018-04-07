@@ -6,6 +6,10 @@ import (
 )
 
 func (expr Expression) JumblePixels(data image.Image) (image.Image, error) {
+    return expr.JumblePixelsMonitor(data, nil)
+}
+
+func (expr Expression) JumblePixelsMonitor(data image.Image, mon func()) (image.Image, error) {
     img := image.NewNRGBA(data.Bounds())
     xm, xM := data.Bounds().Min.X, data.Bounds().Max.X
     ym, yM := data.Bounds().Min.Y, data.Bounds().Max.Y
@@ -40,6 +44,10 @@ func (expr Expression) JumblePixels(data image.Image) (image.Image, error) {
                 nr, ng, nb,
                 255,
             })
+
+            if mon != nil {
+                mon()
+            }
         }
     }
 
