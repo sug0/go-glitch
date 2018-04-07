@@ -72,7 +72,7 @@ func main() {
         bar := pb.New(pixsize).SetMaxWidth(80)
         bar.Start()
 
-        img, err = expr.JumblePixelsMonitor(img, func() { bar.Increment() })
+        img, err = expr.JumblePixelsMonitor(img, func(_, _ int) { bar.Increment() })
         if err != nil {
             fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
             os.Exit(1)

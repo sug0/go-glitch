@@ -9,13 +9,20 @@ func (expr Expression) JumblePixels(data image.Image) (image.Image, error) {
     return expr.JumblePixelsMonitor(data, nil)
 }
 
-func (expr Expression) JumblePixelsMonitor(data image.Image, mon func()) (image.Image, error) {
+func (expr Expression) JumblePixelsMonitor(data image.Image, mon func(int, int)) (image.Image, error) {
     img := image.NewNRGBA(data.Bounds())
     xm, xM := data.Bounds().Min.X, data.Bounds().Max.X
     ym, yM := data.Bounds().Min.Y, data.Bounds().Max.Y
 
     var err error
     var nr, ng, nb, sr, sg, sb uint8
+    var i, pixsize int
+
+    if mon != nil {
+        i = 0
+        pixsize = data.Bounds().Dx() * data.Bounds().Dy()
+        mon(i, pixsize)
+    }
 
     box := make([]color.RGBA, 9)
 
@@ -46,7 +53,8 @@ func (expr Expression) JumblePixelsMonitor(data image.Image, mon func()) (image.
             })
 
             if mon != nil {
-                mon()
+                mon(i, pixsize)
+                i++
             }
         }
     }
