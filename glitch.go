@@ -5,7 +5,7 @@ import (
     "image/color"
 )
 
-func JumblePixels(expr Expression, data image.Image) (image.Image, error) {
+func (expr Expression) JumblePixels(data image.Image) (image.Image, error) {
     img := image.NewNRGBA(data.Bounds())
     xm, xM := data.Bounds().Min.X, data.Bounds().Max.X
     ym, yM := data.Bounds().Min.Y, data.Bounds().Max.Y
@@ -27,7 +27,7 @@ func JumblePixels(expr Expression, data image.Image) (image.Image, error) {
                 }
             }
 
-            nr, ng, nb, err = evalRPN(expr, box[4].R, sr, box[4].G, sg, box[4].B, sb, box)
+            nr, ng, nb, err = expr.evalRPN(box[4].R, sr, box[4].G, sg, box[4].B, sb, box)
             if err != nil {
                 return nil, err
             }

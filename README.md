@@ -64,11 +64,6 @@ func main() {
     }
     defer f2.Close()
 
-    expr, err := glitch.CompileExpression("(n|(c > 1)) ^ 128")
-    if err != nil {
-        panic(err)
-    }
-
     img, _, err := image.Decode(f)
     if err != nil {
         panic(err)
@@ -76,7 +71,12 @@ func main() {
 
     rand.Seed(time.Now().UnixNano())
 
-    g, err := glitch.JumblePixels(expr, img)
+    expr, err := glitch.CompileExpression("(n|(c > 1)) ^ 128")
+    if err != nil {
+        panic(err)
+    }
+
+    g, err := expr.JumblePixels(img)
     if err != nil {
         panic(err)
     }

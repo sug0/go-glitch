@@ -12,19 +12,18 @@ type sum struct {
     r, g, b uint8
 }
 
-func evalRPN(input Expression,
-             r, sr, g, sg, b, sb uint8,
-             box []color.RGBA,
+func (expr Expression) evalRPN(r, sr, g, sg, b, sb uint8,
+                               box []color.RGBA,
 ) (rr uint8, gr uint8, br uint8, err error) {
     defer func() {
         if r := recover(); r != nil {
-            err = fmt.Errorf("error evaluating expression: %s", input)
+            err = fmt.Errorf("error evaluating expression: %s", expr)
             return
         }
     }()
 
     stk := []sum{}
-    toks := strings.Split(string(input), " ")
+    toks := strings.Split(string(expr), " ")
 
     for _,tok := range toks {
         if tok == "" {
