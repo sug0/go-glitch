@@ -5,6 +5,7 @@ import (
     "fmt"
     "flag"
     "time"
+    "strings"
     "math/rand"
     "image"
     "image/png"
@@ -20,10 +21,10 @@ func main() {
 
     out := flag.String("o", "out.png", "output file")
     in := flag.String("i", "<none>", "input file")
-    exprS := flag.String("expression", "c ^ 255", "the expression to use")
+    exprS := flag.String("e", "c ^ 255", "comma separated list of expressions")
     flag.Parse()
 
-    expr, err := glitch.CompileExpression(*exprS)
+    exprs, err := compileExprs(*exprS)
     if err != nil {
         fmt.Fprintf(os.Stderr, "%s: couldn't compile expression %q\n", os.Args[0], *exprS)
         os.Exit(1)
@@ -63,19 +64,36 @@ func main() {
     }
 
     rand.Seed(time.Now().UnixNano())
-
     pixsize := img.Bounds().Dx() * img.Bounds().Dy()
-    bar := pb.New(pixsize).SetMaxWidth(80)
 
-    fmt.Printf("Glitching %d pixels...\n", pixsize)
-    bar.Start()
-    defer bar.Finish()
+    fmt.Printf("Glitching %d pixels %d time(s)...\n", pixsize, len(exprs))
 
-    glitched, err := expr.JumblePixelsMonitor(img, func() { bar.Increment() })
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
-        os.Exit(1)
+    for _,expr := range exprs {
+        bar := pb.New(pixsize).SetMaxWidth(80)
+        bar.Start()
+
+        img, err = expr.JumblePixelsMonitor(img, func() { bar.Increment() })
+        if err != nil {
+            fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
+            os.Exit(1)
+        }
+
+        bar.Finish()
     }
 
-    png.Encode(f, glitched)
+    png.Encode(f, img)
+}
+
+func compileExprs(exprs string) ([]glitch.Expression, error) {
+    var e []glitch.Expression
+
+    for _,exprS := range strings.Split(exprs, ",") {
+        expr, err := glitch.CompileExpression(exprS)
+        if err != nil {
+            return nil, err
+        }
+        e = append(e, expr)
+    }
+
+    return e, nil
 }
