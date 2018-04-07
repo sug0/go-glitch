@@ -38,7 +38,8 @@ func (expr Expression) JumblePixelsMonitor(data image.Image, mon func(int, int))
                 }
             }
 
-            nr, ng, nb, err = expr.evalRPN(box[4].R, sr, box[4].G, sg, box[4].B, sb, box)
+            nr, ng, nb, err = expr.evalRPN(x, y, xM, yM,
+                                           box[4].R, sr, box[4].G, sg, box[4].B, sb, box)
             if err != nil {
                 return nil, err
             }

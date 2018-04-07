@@ -66,7 +66,7 @@ func CompileExpression(input string) (exp Expression, err error){
                 output += string(opTok) + " "
             }
             opers = append(opers, tok)
-        case tok == 'c' || tok == 's' || tok == 'n' || tok == 'r':
+        case tok == 'c' || tok == 's' || tok == 'n' || tok == 'r' || tok == 'x' || tok == 'y':
             if lastWasDigit {
                 lastWasDigit = false
                 output += " "

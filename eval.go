@@ -12,7 +12,8 @@ type sum struct {
     r, g, b uint8
 }
 
-func (expr Expression) evalRPN(r, sr, g, sg, b, sb uint8,
+func (expr Expression) evalRPN(x, y, w, h int,
+                               r, sr, g, sg, b, sb uint8,
                                box []color.RGBA,
 ) (rr uint8, gr uint8, br uint8, err error) {
     defer func() {
@@ -41,6 +42,12 @@ func (expr Expression) evalRPN(r, sr, g, sg, b, sb uint8,
             stk = append(stk, sum{y, y, y})
         } else if tok == "s" {
             stk = append(stk, sum{sr, sg, sb})
+        } else if tok == "x" {
+            xu := threeRule(x, w)
+            stk = append(stk, sum{xu, xu, xu})
+        } else if tok == "y" {
+            yu := threeRule(y, h)
+            stk = append(stk, sum{yu, yu, yu})
         } else if tok == "r" {
             i, j, k := rand.Int() % 8, rand.Int() % 8, rand.Int() % 8
             stk = append(stk, sum{box[i].R, box[j].G, box[k].B})
