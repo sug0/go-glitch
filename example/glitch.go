@@ -66,10 +66,11 @@ func main() {
     rand.Seed(time.Now().UnixNano())
     pixsize := img.Bounds().Dx() * img.Bounds().Dy()
 
-    fmt.Printf("Glitching %d pixels %d time(s)...\n", pixsize, len(exprs))
+    fmt.Fprintf(os.Stderr, "Glitching %d pixels %d time(s)...\n", pixsize, len(exprs))
 
     for _,expr := range exprs {
         bar := pb.New(pixsize).SetMaxWidth(80)
+        bar.Output = os.Stderr
         bar.Start()
 
         img, err = expr.JumblePixelsMonitor(img, func(_, _ int) { bar.Increment() })
