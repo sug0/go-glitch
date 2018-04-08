@@ -43,7 +43,14 @@ The expressions are made up of operators, numbers, parenthesis, and a set of par
 * `128 & (c + 255) : (s ^ (c ^ 255)) + 25`
 
 
-# Usage
+# Command line tool usage
+
+Use the [docker image](https://hub.docker.com/r/sugoiuguu/go-glitch/):
+
+    $ docker run sugoiuguu/go-glitch
+
+
+# API usage
 
 ```go
 package main
