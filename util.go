@@ -1,6 +1,7 @@
 package glitch
 
 import (
+    //"math"
     "strings"
 )
 
@@ -22,3 +23,11 @@ func convUint8(r, g, b, _ uint32) (uint8, uint8, uint8) {
 func threeRule(x, max int) uint8 {
     return uint8(((255 * x) / max) & 255)
 }
+
+//func normSin(x int) uint8 {
+//    return uint8(255 * math.Sin(float64(x)))
+//}
+//
+//func normCos(x int) uint8 {
+//    return uint8(255 * math.Cos(float64(x)))
+//}
