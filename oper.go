@@ -28,10 +28,18 @@ var operMap = map[byte]*operator{
         return x * y
     }},
     '/': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
-        return x / y
+        if y == 0 {
+            return x
+        } else {
+            return x / y
+        }
     }},
     '%': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
-        return x % y
+        if y == 0 {
+            return x
+        } else {
+            return x % y
+        }
     }},
     '<': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
         return x << y

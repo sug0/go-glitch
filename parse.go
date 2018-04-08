@@ -66,7 +66,7 @@ func CompileExpression(input string) (exp Expression, err error){
                 output += string(opTok) + " "
             }
             opers = append(opers, tok)
-        case tok == 'c' || tok == 's' || tok == 'n' || tok == 'r' || tok == 'x' || tok == 'y':
+        case validTok(tok):
             if lastWasDigit {
                 lastWasDigit = false
                 output += " "
@@ -81,4 +81,9 @@ func CompileExpression(input string) (exp Expression, err error){
     }
 
     return Expression(output + " " + reverse(opers)), nil
+}
+
+func validTok(tok byte) bool {
+    return tok == 'c' || tok == 's' || tok == 'n' ||
+           tok == 'r' || tok == 'x' || tok == 'y'
 }
