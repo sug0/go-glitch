@@ -26,8 +26,12 @@ returning a new one. The allowed operators are:
 The expressions are made up of operators, numbers, parenthesis, and a set of parameters:
 
 * `c` the current value of each pixel component color
+* `R` the current value of the pixel's red component
+* `G` the current value of the pixel's green component
+* `B` the current value of the pixel's blue component
+* `Y` the luminosity, or grayscale component of each pixel
+* `N` a noise pixel (i.e. a pixel where each component is a random value)
 * `s` the value of each pixel's last saved evaluated expression
-* `n` the luminosity, or grayscale component of each pixel
 * `r` a pixel made up of a random color component from the neighboring 8 pixels
 * `x` the current x coordinate being evaluated normalized in the range `[0, 255]`
 * `y` the current y coordinate being evaluated normalized in the range `[0, 255]`

@@ -23,6 +23,10 @@ func CompileExpression(input string) (exp Expression, err error){
     for i := 0; i < len(input); i++ {
         tok := input[i]
         switch {
+        default:
+            return "", fmt.Errorf("invalid expression: %s", input)
+        case isWhitespace(tok):
+            continue
         case tok == '(':
             if lastWasDigit {
                 lastWasDigit = false
@@ -83,7 +87,13 @@ func CompileExpression(input string) (exp Expression, err error){
     return Expression(output + " " + reverse(opers)), nil
 }
 
+func isWhitespace(tok byte) bool {
+    return tok == ' ' || tok == '\n' || tok == '\t'
+}
+
 func validTok(tok byte) bool {
-    return tok == 'c' || tok == 's' || tok == 'n' ||
-           tok == 'r' || tok == 'x' || tok == 'y'
+    return tok == 'c' || tok == 's' || tok == 'Y' ||
+           tok == 'r' || tok == 'x' || tok == 'y' ||
+           tok == 'N' || tok == 'R' || tok == 'G' ||
+           tok == 'B'
 }
