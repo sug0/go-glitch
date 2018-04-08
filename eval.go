@@ -5,7 +5,6 @@ import (
     "math/rand"
     "strconv"
     "strings"
-    "image/color"
 )
 
 type sum struct {
@@ -14,7 +13,7 @@ type sum struct {
 
 func (expr Expression) evalRPN(x, y, w, h int,
                                r, sr, g, sg, b, sb uint8,
-                               box []color.RGBA,
+                               box []sum,
 ) (rr uint8, gr uint8, br uint8, err error) {
     defer func() {
         if r := recover(); r != nil {
@@ -50,7 +49,7 @@ func (expr Expression) evalRPN(x, y, w, h int,
             stk = append(stk, sum{yu, yu, yu})
         } else if tok == "r" {
             i, j, k := rand.Int() % 8, rand.Int() % 8, rand.Int() % 8
-            stk = append(stk, sum{box[i].R, box[j].G, box[k].B})
+            stk = append(stk, sum{box[i].r, box[j].g, box[k].b})
         } else {
             if i, err := strconv.Atoi(tok); err == nil {
                 u := uint8(i)
