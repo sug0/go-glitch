@@ -12,8 +12,8 @@ type sum struct {
 }
 
 func (expr *Expression) evalRPN(x, y, w, h int,
-                               r, sr, g, sg, b, sb uint8,
-                               box []color.NRGBA,
+                                sr, sg, sb uint8,
+                                box []color.NRGBA,
 ) (rr uint8, gr uint8, br uint8, err error) {
     defer func() {
         if r := recover(); r != nil {
@@ -21,6 +21,10 @@ func (expr *Expression) evalRPN(x, y, w, h int,
             return
         }
     }()
+
+    if box[4].A == 0 {
+        return
+    }
 
     stk := make([]sum, 0, len(expr.toks))
 
@@ -34,15 +38,17 @@ func (expr *Expression) evalRPN(x, y, w, h int,
                                                oper.f(a.g, b.g),
                                                oper.f(a.b, b.b)})
         } else if tok == "c" {
-            stk = append(stk, sum{r, g, b})
+            stk = append(stk, sum{box[4].R, box[4].G, box[4].B})
         } else if tok == "R" {
-            stk = append(stk, sum{r, 0, 0})
+            stk = append(stk, sum{box[4].R, 0, 0})
         } else if tok == "G" {
-            stk = append(stk, sum{0, g, 0})
+            stk = append(stk, sum{0, box[4].G, 0})
         } else if tok == "B" {
-            stk = append(stk, sum{0, 0, b})
+            stk = append(stk, sum{0, 0, box[4].B})
         } else if tok == "Y" {
-            y := uint8(float64(r)*0.299) + uint8(float64(g)*0.587) + uint8(float64(b)*0.0722)
+            y := uint8(float64(box[4].R)*0.299) +
+                 uint8(float64(box[4].G)*0.587) +
+                 uint8(float64(box[4].B)*0.0722)
             stk = append(stk, sum{y, y, y})
         } else if tok == "s" {
             stk = append(stk, sum{sr, sg, sb})
