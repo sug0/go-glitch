@@ -33,6 +33,7 @@ The expressions are made up of operators, numbers, parenthesis, and a set of par
 * `N` a noise pixel (i.e. a pixel where each component is a random value)
 * `s` the value of each pixel's last saved evaluated expression
 * `r` a pixel made up of a random color component from the neighboring 8 pixels
+* `e` the difference of all pixels in a box, creating an edge-like effect
 * `x` the current x coordinate being evaluated normalized in the range `[0, 255]`
 * `y` the current y coordinate being evaluated normalized in the range `[0, 255]`
 
