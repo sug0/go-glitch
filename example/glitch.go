@@ -66,9 +66,11 @@ func main() {
     rand.Seed(time.Now().UnixNano())
     pixsize := img.Bounds().Dx() * img.Bounds().Dy()
 
-    fmt.Fprintf(os.Stderr, "Glitching %d pixels %d time(s)...\n", pixsize, len(exprs))
+    fmt.Fprintf(os.Stderr, "Glitching %d pixels %d time(s)...\n\n", pixsize, len(exprs))
 
-    for _,expr := range exprs {
+    for i, expr := range exprs {
+        fmt.Fprintf(os.Stderr, "[%d]: Using expression: %s\n", i + 1, expr)
+
         bar := pb.New(pixsize).SetMaxWidth(80)
         bar.Output = os.Stderr
         bar.Start()
@@ -85,10 +87,11 @@ func main() {
     png.Encode(f, img)
 }
 
-func compileExprs(exprs string) ([]glitch.Expression, error) {
-    var e []glitch.Expression
+func compileExprs(exprsS string) ([]*glitch.Expression, error) {
+    exprs := strings.Split(exprsS, ",")
+    e := make([]*glitch.Expression, 0, len(exprs))
 
-    for _,exprS := range strings.Split(exprs, ",") {
+    for _,exprS := range exprs {
         expr, err := glitch.CompileExpression(exprS)
         if err != nil {
             return nil, err

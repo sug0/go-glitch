@@ -2,29 +2,37 @@ package glitch
 
 import (
     "fmt"
+    "strings"
     "unicode"
 )
 
-type Expression string
+type Expression struct {
+    infix string
+    toks  []string
+}
+
+func (expr *Expression) String() string {
+    return expr.infix
+}
 
 // shunting yard algorithm
-func CompileExpression(input string) (exp Expression, err error){
+func CompileExpression(input string) (exp *Expression, err error){
     defer func() {
         if r := recover(); r != nil {
-            exp = ""
+            exp = nil
             err = fmt.Errorf("invalid expression: %s", input)
         }
     }()
 
     lastWasDigit := false
     output := ""
-    opers := []byte{}
+    opers := make([]byte, 0, len(input))
 
     for i := 0; i < len(input); i++ {
         tok := input[i]
         switch {
         default:
-            return "", fmt.Errorf("invalid expression: %s", input)
+            return nil, fmt.Errorf("invalid expression: %s", input)
         case isWhitespace(tok):
             continue
         case tok == '(':
@@ -84,7 +92,12 @@ func CompileExpression(input string) (exp Expression, err error){
         }
     }
 
-    return Expression(output + " " + reverse(opers)), nil
+    opers = nil
+
+    return &Expression{
+        infix: input,
+        toks: strings.Split(output + " " + reverse(opers), " "),
+    }, nil
 }
 
 func isWhitespace(tok byte) bool {

@@ -4,28 +4,26 @@ import (
     "fmt"
     "math/rand"
     "strconv"
-    "strings"
 )
 
 type sum struct {
     r, g, b uint8
 }
 
-func (expr Expression) evalRPN(x, y, w, h int,
+func (expr *Expression) evalRPN(x, y, w, h int,
                                r, sr, g, sg, b, sb uint8,
                                box []sum,
 ) (rr uint8, gr uint8, br uint8, err error) {
     defer func() {
         if r := recover(); r != nil {
-            err = fmt.Errorf("error evaluating expression: %s", expr)
+            err = fmt.Errorf("error evaluating expression: %s", expr.infix)
             return
         }
     }()
 
-    stk := []sum{}
-    toks := strings.Split(string(expr), " ")
+    stk := make([]sum, 0, len(expr.toks))
 
-    for _,tok := range toks {
+    for _,tok := range expr.toks {
         if tok == "" {
             continue
         }
