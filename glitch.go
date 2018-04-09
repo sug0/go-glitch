@@ -24,7 +24,7 @@ func (expr Expression) JumblePixelsMonitor(data image.Image, mon func(int, int))
         mon(i, pixsize)
     }
 
-    box := make([]sum, 9)
+    box := make([]color.NRGBA, 9)
 
     for x := xm; x < xM; x++ {
         for y := ym; y < yM; y++ {
@@ -32,14 +32,14 @@ func (expr Expression) JumblePixelsMonitor(data image.Image, mon func(int, int))
 
             for i := x - 1; i <= x + 1; i++ {
                 for j := y - 1; j <= y + 1; j++ {
-                    r, g, b := convUint8(data.At(i, j).RGBA())
-                    box[k] = sum{r: r, g: g, b: b}
+                    r, g, b, a := convUint8(data.At(i, j).RGBA())
+                    box[k] = color.NRGBA{r, g, b, a}
                     k++
                 }
             }
 
             nr, ng, nb, err = expr.evalRPN(x, y, xM, yM,
-                                           box[4].r, sr, box[4].g, sg, box[4].b, sb, box)
+                                           box[4].R, sr, box[4].G, sg, box[4].B, sb, box)
             if err != nil {
                 return nil, err
             }
@@ -50,7 +50,7 @@ func (expr Expression) JumblePixelsMonitor(data image.Image, mon func(int, int))
 
             img.Set(x, y, color.NRGBA{
                 nr, ng, nb,
-                255,
+                box[4].A,
             })
 
             if mon != nil {

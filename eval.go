@@ -3,6 +3,7 @@ package glitch
 import (
     "fmt"
     "math/rand"
+    "image/color"
     "strconv"
 )
 
@@ -12,7 +13,7 @@ type sum struct {
 
 func (expr *Expression) evalRPN(x, y, w, h int,
                                r, sr, g, sg, b, sb uint8,
-                               box []sum,
+                               box []color.NRGBA,
 ) (rr uint8, gr uint8, br uint8, err error) {
     defer func() {
         if r := recover(); r != nil {
@@ -53,7 +54,7 @@ func (expr *Expression) evalRPN(x, y, w, h int,
             stk = append(stk, sum{yu, yu, yu})
         } else if tok == "r" {
             i, j, k := rand.Int() % 8, rand.Int() % 8, rand.Int() % 8
-            stk = append(stk, sum{box[i].r, box[j].g, box[k].b})
+            stk = append(stk, sum{box[i].R, box[j].G, box[k].B})
         } else if tok == "N" {
             rn, gn, bn := uint8(rand.Int() % 256), uint8(rand.Int() % 256), uint8(rand.Int() % 256)
             stk = append(stk, sum{rn, gn, bn})

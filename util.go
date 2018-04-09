@@ -16,8 +16,8 @@ func reverse(slice []byte) string {
     return strings.Join(s, " ")
 }
 
-func convUint8(r, g, b, _ uint32) (uint8, uint8, uint8) {
-    return uint8(r / 0x101), uint8(g / 0x101), uint8(b / 0x101)
+func convUint8(r, g, b, a uint32) (uint8, uint8, uint8, uint8) {
+    return uint8(r / 0x101), uint8(g / 0x101), uint8(b / 0x101), uint8(a / 0x101)
 }
 
 func threeRule(x, max int) uint8 {
