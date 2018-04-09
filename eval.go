@@ -66,6 +66,7 @@ func (expr *Expression) evalRPN(x, y, w, h int,
     }
 
     v := stk[len(stk)-1]
+    stk = nil
 
     return v.r, v.g, v.b, nil
 }
