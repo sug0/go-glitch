@@ -92,8 +92,6 @@ func CompileExpression(input string) (exp *Expression, err error){
         }
     }
 
-    opers = nil
-
     return &Expression{
         infix: input,
         toks: strings.Split(output + " " + reverse(opers), " "),
