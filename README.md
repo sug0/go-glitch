@@ -16,12 +16,14 @@ returning a new one. The allowed operators are:
 * `*` multiplication
 * `/` division
 * `%` modulo
+* `#` power of operator
 * `&` bit and
 * `|` bit or
 * `:` bit and not
 * `^` bit xor
 * `<` bit left shift
 * `>` bit right shift
+* `?` returns 255 if left side is greater otherwise 0
 
 The expressions are made up of operators, numbers, parenthesis, and a set of parameters:
 
