@@ -53,6 +53,21 @@ var operMap = map[byte]*operator{
     ':': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
         return x &^ y
     }},
+    '#': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
+        var z uint8 = 1
+        for y > 0 {
+            z *= x
+            y--
+        }
+        return z
+    }},
+    '?': &operator{precedence: 6, assoc: assocRight, f: func(x, y uint8) uint8 {
+        if x > y {
+            return 255
+        } else {
+            return 0
+        }
+    }},
 }
 
 func (o1 *operator) hasPrecedence(o2 *operator) bool {
