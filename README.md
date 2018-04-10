@@ -1,4 +1,4 @@
-![](https://u.sicp.me/m52vY.png)
+![](https://u.sicp.me/k4Tum.png)
 
 # Go Glitch
 
