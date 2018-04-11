@@ -27,6 +27,7 @@ func CompileExpression(input string) (exp *Expression, err error){
     lastWasDigit := false
     output := ""
     opers := make([]byte, 0, len(input))
+    nOpers, nOperands := 0, 0
 
     for i := 0; i < len(input); i++ {
         tok := input[i]
@@ -58,6 +59,7 @@ func CompileExpression(input string) (exp *Expression, err error){
                 }
             }
         case operMap[tok] != nil:
+            nOpers++
             op := operMap[tok]
             if lastWasDigit {
                 lastWasDigit = false
@@ -79,6 +81,7 @@ func CompileExpression(input string) (exp *Expression, err error){
             }
             opers = append(opers, tok)
         case validTok(tok):
+            nOperands++
             if lastWasDigit {
                 lastWasDigit = false
                 output += " "
@@ -86,15 +89,37 @@ func CompileExpression(input string) (exp *Expression, err error){
             output += string(tok) + " "
         case unicode.IsDigit(rune(tok)):
             if !lastWasDigit {
+                nOperands++
                 lastWasDigit = true
             }
             output += string(tok)
         }
     }
 
+    // insufficient number of operands
+    if nOpers != nOperands - 1 {
+        return nil, fmt.Errorf("invalid expression: %s", input)
+    }
+
+    // try to find unmatched parenthesis
+    // while reversing oper order to insert
+    // in postfix expression
+    l := len(opers)
+    rev := make([]string, l)
+    l--
+
+    for i, tok := range opers {
+        if tok == '(' {
+            rev = nil
+            return nil, fmt.Errorf("invalid expression: %s", input)
+        }
+        rev[l - i] = string(tok)
+    }
+
+    // success
     return &Expression{
         infix: input,
-        toks: strings.Split(output + " " + reverse(opers), " "),
+        toks: append(strings.Split(output, " "), rev...),
     }, nil
 }
 
