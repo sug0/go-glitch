@@ -45,6 +45,9 @@ The expressions are made up of operators, numbers, parenthesis, and a set of par
 * `(c & (c ^ 55)) + 25`
 * `128 & (c + 255) : (s ^ (c ^ 255)) + 25`
 
+More examples can be found
+[here](https://github.com/sugoiuguu/go-glitch/blob/master/res/cool.txt).
+
 
 # Command line tool usage
 
