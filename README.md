@@ -28,11 +28,11 @@ returning a new one. The allowed operators are:
 The expressions are made up of operators, numbers, parenthesis, and a set of parameters:
 
 * `c` the current value of each pixel component color
-* `R` the current value of the pixel's red component
-* `G` the current value of the pixel's green component
-* `B` the current value of the pixel's blue component
 * `Y` the luminosity, or grayscale component of each pixel
 * `N` a noise pixel (i.e. a pixel where each component is a random value)
+* `R` the red color (i.e. rgb(255, 0, 0))
+* `G` the green color (i.e. rgb(0, 255, 0))
+* `B` the blue color (i.e. rgb(0, 0, 255))
 * `s` the value of each pixel's last saved evaluated expression
 * `r` a pixel made up of a random color component from the neighboring 8 pixels
 * `e` the difference of all pixels in a box, creating an edge-like effect

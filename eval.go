@@ -40,11 +40,11 @@ func (expr *Expression) evalRPN(x, y, w, h int,
         } else if tok == "c" {
             stk = append(stk, sum{box[4].R, box[4].G, box[4].B})
         } else if tok == "R" {
-            stk = append(stk, sum{box[4].R, 0, 0})
+            stk = append(stk, sum{255, 0, 0})
         } else if tok == "G" {
-            stk = append(stk, sum{0, box[4].G, 0})
+            stk = append(stk, sum{0, 255, 0})
         } else if tok == "B" {
-            stk = append(stk, sum{0, 0, box[4].B})
+            stk = append(stk, sum{0, 0, 255})
         } else if tok == "Y" {
             y := uint8(float64(box[4].R)*0.299) +
                  uint8(float64(box[4].G)*0.587) +
