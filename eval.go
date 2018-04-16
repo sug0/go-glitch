@@ -69,6 +69,14 @@ func (expr *Expression) evalRPN(x, y, w, h int,
             db := box[8].B - box[0].B + box[5].B - box[3].B +
                   box[7].B - box[1].B + box[6].B - box[2].B
             stk = append(stk, sum{dr, dg, db})
+        } else if tok == "b" {
+            sr := int(box[0].R) + int(box[1].R) + int(box[2].R) + int(box[3].R) +
+                  int(box[4].R) + int(box[5].R) + int(box[6].R) + int(box[7].R) + int(box[8].R)
+            sg := int(box[0].G) + int(box[1].G) + int(box[2].G) + int(box[3].G) +
+                  int(box[4].G) + int(box[5].G) + int(box[6].G) + int(box[7].G) + int(box[8].G)
+            sb := int(box[0].B) + int(box[1].B) + int(box[2].B) + int(box[3].B) +
+                  int(box[4].B) + int(box[5].B) + int(box[6].B) + int(box[7].B) + int(box[8].B)
+            stk = append(stk, sum{uint8(sr/9), uint8(sg/9), uint8(sb/9)})
         } else if tok == "N" {
             rn, gn, bn := uint8(rand.Int() % 256), uint8(rand.Int() % 256), uint8(rand.Int() % 256)
             stk = append(stk, sum{rn, gn, bn})

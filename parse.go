@@ -131,5 +131,5 @@ func validTok(tok byte) bool {
     return tok == 'c' || tok == 's' || tok == 'Y' ||
            tok == 'r' || tok == 'x' || tok == 'y' ||
            tok == 'N' || tok == 'R' || tok == 'G' ||
-           tok == 'B' || tok == 'e'
+           tok == 'B' || tok == 'e' || tok == 'b'
 }

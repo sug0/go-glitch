@@ -28,6 +28,7 @@ returning a new one. The allowed operators are:
 The expressions are made up of operators, numbers, parenthesis, and a set of parameters:
 
 * `c` the current value of each pixel component color
+* `b` the blurred version of `c`
 * `Y` the luminosity, or grayscale component of each pixel
 * `N` a noise pixel (i.e. a pixel where each component is a random value)
 * `R` the red color (i.e. rgb(255, 0, 0))
