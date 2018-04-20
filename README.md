@@ -5,6 +5,10 @@
 A go package to glitch an image based on an expression you pass in as input!
 The only limit is your creativity (and patience)!
 
+## Discord
+
+[Join our discord server!](https://discord.gg/cUW4b6Z)
+
     
 # What is the deal with the expressions?
 
