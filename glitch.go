@@ -4,6 +4,7 @@ import (
     "image"
     "image/gif"
     "image/color"
+    "image/draw"
 )
 
 func (expr Expression) JumblePixels(data image.Image) (image.Image, error) {
@@ -34,8 +35,14 @@ func (expr Expression) JumbleGIFPixelsMonitor(data *gif.GIF, mon func(int, int))
     }
 
     newgif := new(gif.GIF)
+    newgif.LoopCount = data.LoopCount
     newgif.Delay = make([]int, len(data.Delay))
     copy(newgif.Delay, data.Delay)
+
+    overpaint := image.NewNRGBA(data.Image[0].Bounds())
+    draw.Draw(overpaint, overpaint.Bounds(), data.Image[0], image.ZP, draw.Src)
+
+    var didFirst bool
 
     for _,img := range data.Image {
         // glitch image
@@ -44,8 +51,16 @@ func (expr Expression) JumbleGIFPixelsMonitor(data *gif.GIF, mon func(int, int))
             return nil, err
         }
 
+        if didFirst {
+            draw.Draw(overpaint, overpaint.Bounds(), newimg, image.ZP, draw.Over)
+        } else {
+            didFirst = true
+            draw.Draw(overpaint, overpaint.Bounds(), newimg, image.ZP, draw.Src)
+        }
+        newimg = nil
+
         // convert from NRGBA to Paletted
-        paletted, err := imgNRGBAToPaletted(newimg.(*image.NRGBA))
+        paletted, err := imgNRGBAToPaletted(overpaint)
         if err != nil {
             return nil, err
         }
