@@ -109,3 +109,18 @@ func main() {
     png.Encode(f2, g)
 }
 ```
+
+# C/C++ interface
+
+There is an experimental interface for C/C++ code
+[here](https://github.com/sugoiuguu/go-glitch/blob/master/example/ffi.go).
+The API is:
+
+```c
+typedef struct {
+    char *data;
+    size_t size;
+} Image_t;
+
+extern Image_t *jumble_pixels(char *expression, char *data, int size);
+```
