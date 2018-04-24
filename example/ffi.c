@@ -4,7 +4,7 @@
 #include "glitch.h"
 
 /*
- * $ cc -Wall -O2 -o ffi ffi.c glitch.a */
+ * $ cc -Wall -O2 -o ffi ffi.c glitch.a -lpthread */
 
 int main(int argc, char *argv[])
 {
