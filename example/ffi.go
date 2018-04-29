@@ -33,7 +33,8 @@ func jumble_pixels(expression, data *C.char, size C.int) *C.Image_t {
         return nil
     }
 
-    // write the raw image data to a bytes.Buffer
+    // write the raw image data
+    // to a bytes.Buffer
     buf := new(bytes.Buffer)
     if _,err := buf.Write(C.GoBytes(unsafe.Pointer(data), size)); err != nil {
         return nil
