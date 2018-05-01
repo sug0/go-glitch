@@ -57,6 +57,7 @@ c ^ ((x ? Y) ? (255 - e))
 ((Y - x) ? (c - s)) ^ (0 - (x + y) : (0 - (y - x)))
 ((s + (R&c)) - c) & (0 - (x ? (0 - (x - x*y) : y)) - (1 : (y ^ x))) - (c + s)
 (c @ (s & G)) ^ (c - L)
+L ^ H > H < L % R
 
 # noise
 ((y/(x*x) ^ s) + x*s) > 2 + c
@@ -80,3 +81,6 @@ Y ^ (s & (60 > (y < (239 ? (c / b)))))
 
 # painting
 (H-L)|b
+
+# line art
+L ^ H
