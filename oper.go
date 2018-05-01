@@ -41,10 +41,10 @@ var operMap = map[rune]*operator{
             return x % y
         }
     }},
-    '«': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
+    '<': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
         return x << y
     }},
-    '»': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
+    '>': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
         return x >> y
     }},
     '&': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
