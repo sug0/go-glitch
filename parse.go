@@ -26,11 +26,10 @@ func CompileExpression(input string) (exp *Expression, err error){
 
     lastWasDigit := false
     output := ""
-    opers := make([]byte, 0, len(input))
+    opers := make([]rune, 0, len(input))
     nOpers, nOperands := 0, 0
 
-    for i := 0; i < len(input); i++ {
-        tok := input[i]
+    for _,tok := range []rune(input) {
         switch {
         default:
             return nil, fmt.Errorf("invalid expression: %s", input)
@@ -123,13 +122,14 @@ func CompileExpression(input string) (exp *Expression, err error){
     }, nil
 }
 
-func isWhitespace(tok byte) bool {
+func isWhitespace(tok rune) bool {
     return tok == ' ' || tok == '\n' || tok == '\t'
 }
 
-func validTok(tok byte) bool {
+func validTok(tok rune) bool {
     return tok == 'c' || tok == 's' || tok == 'Y' ||
            tok == 'r' || tok == 'x' || tok == 'y' ||
            tok == 'N' || tok == 'R' || tok == 'G' ||
-           tok == 'B' || tok == 'e' || tok == 'b'
+           tok == 'B' || tok == 'e' || tok == 'b' ||
+           tok == 'H' || tok == 'L'
 }

@@ -1,7 +1,6 @@
 package glitch
 
 import (
-    //"math"
     "bytes"
     "image"
     "image/gif"
@@ -31,10 +30,21 @@ func threeRule(x, max int) uint8 {
     return uint8(((255 * x) / max) & 255)
 }
 
-//func normSin(x int) uint8 {
-//    return uint8(255 * math.Sin(float64(x)))
-//}
-//
-//func normCos(x int) uint8 {
-//    return uint8(255 * math.Cos(float64(x)))
-//}
+func max(vals ...uint8) (m uint8) {
+    for _,v := range vals {
+        if v > m {
+            m = v
+        }
+    }
+    return
+}
+
+func min(vals ...uint8) (m uint8) {
+    m = 255
+    for _,v := range vals {
+        if v < m {
+            m = v
+        }
+    }
+    return
+}

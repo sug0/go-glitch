@@ -11,7 +11,7 @@ const (
     assocLeft
 )
 
-var operMap = map[byte]*operator{
+var operMap = map[rune]*operator{
     '+': &operator{precedence: 4, assoc: assocLeft, f: func(x, y uint8) uint8 {
         return x + y
     }},
@@ -41,10 +41,10 @@ var operMap = map[byte]*operator{
             return x % y
         }
     }},
-    '<': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
+    '«': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
         return x << y
     }},
-    '>': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
+    '»': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
         return x >> y
     }},
     '&': &operator{precedence: 5, assoc: assocLeft, f: func(x, y uint8) uint8 {
@@ -67,6 +67,10 @@ var operMap = map[byte]*operator{
         } else {
             return 0
         }
+    }},
+    '@': &operator{precedence: 6, assoc: assocRight, f: func(x, y uint8) uint8 {
+        fuzz := float64(y)/255.0
+        return uint8(float64(x) * fuzz)
     }},
 }
 

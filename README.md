@@ -28,6 +28,7 @@ returning a new one. The allowed operators are:
 * `<` bit left shift
 * `>` bit right shift
 * `?` returns 255 if left side is greater otherwise 0
+* `@` attributes a weight in the range `[0, 255]` to the value on the left
 
 The expressions are made up of operators, numbers, parenthesis, and a set of parameters:
 
@@ -43,6 +44,8 @@ The expressions are made up of operators, numbers, parenthesis, and a set of par
 * `e` the difference of all pixels in a box, creating an edge-like effect
 * `x` the current x coordinate being evaluated normalized in the range `[0, 255]`
 * `y` the current y coordinate being evaluated normalized in the range `[0, 255]`
+* `H` the highest valued color component in the neighboring 8 pixels
+* `L` the lowest valued color component in the neighboring 8 pixels
 
 ## Examples
 

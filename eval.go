@@ -32,7 +32,7 @@ func (expr *Expression) evalRPN(x, y, w, h int,
         if tok == "" {
             continue
         }
-        if oper := operMap[tok[0]]; oper != nil {
+        if oper := operMap[[]rune(tok)[0]]; oper != nil {
             a, b := stk[len(stk)-2], stk[len(stk)-1]
             stk = append(stk[:len(stk)-2], sum{oper.f(a.r, b.r),
                                                oper.f(a.g, b.g),
@@ -77,6 +77,22 @@ func (expr *Expression) evalRPN(x, y, w, h int,
             sb := int(box[0].B) + int(box[1].B) + int(box[2].B) + int(box[3].B) +
                   int(box[4].B) + int(box[5].B) + int(box[6].B) + int(box[7].B) + int(box[8].B)
             stk = append(stk, sum{uint8(sr/9), uint8(sg/9), uint8(sb/9)})
+        } else if tok == "H" {
+            rM := max(box[0].R, box[1].R, box[2].R, box[3].R,
+                      box[4].R, box[5].R, box[6].R, box[7].R, box[8].R)
+            gM := max(box[0].G, box[1].G, box[2].G, box[3].G,
+                      box[4].G, box[5].G, box[6].G, box[7].G, box[8].G)
+            bM := max(box[0].B, box[1].B, box[2].B, box[3].B,
+                      box[4].B, box[5].B, box[6].B, box[7].B, box[8].B)
+            stk = append(stk, sum{rM, gM, bM})
+        } else if tok == "L" {
+            rM := min(box[0].R, box[1].R, box[2].R, box[3].R,
+                      box[4].R, box[5].R, box[6].R, box[7].R, box[8].R)
+            gM := min(box[0].G, box[1].G, box[2].G, box[3].G,
+                      box[4].G, box[5].G, box[6].G, box[7].G, box[8].G)
+            bM := min(box[0].B, box[1].B, box[2].B, box[3].B,
+                      box[4].B, box[5].B, box[6].B, box[7].B, box[8].B)
+            stk = append(stk, sum{rM, gM, bM})
         } else if tok == "N" {
             rn, gn, bn := uint8(rand.Int() % 256), uint8(rand.Int() % 256), uint8(rand.Int() % 256)
             stk = append(stk, sum{rn, gn, bn})
