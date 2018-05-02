@@ -58,6 +58,7 @@ c ^ ((x ? Y) ? (255 - e))
 ((s + (R&c)) - c) & (0 - (x ? (0 - (x - x*y) : y)) - (1 : (y ^ x))) - (c + s)
 (c @ (s & G)) ^ (c - L)
 L ^ H > H < L % R
+(c ^ (L ^ H)) % (R > c) : (( L ^ H < R > c) % (5 ^ R))
 
 # noise
 ((y/(x*x) ^ s) + x*s) > 2 + c
@@ -84,3 +85,8 @@ Y ^ (s & (60 > (y < (239 ? (c / b)))))
 
 # line art
 L ^ H
+(c ^ (L ^ H)) % (R > c) : ( L ^ H < R > c)
+
+# spooky
+(r > (H ^ L) % b) : (H % L)
+((H + (s/L) - L) & R) | ((G / (b / (N > (110 > s)))) : R)
