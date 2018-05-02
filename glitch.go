@@ -84,22 +84,12 @@ func (expr Expression) jumblePixels(data image.Image, i, pixsize int, mon func(i
         mon(i, pixsize)
     }
 
-    box := make([]color.NRGBA, 9)
-
     for x := xm; x < xM; x++ {
         for y := ym; y < yM; y++ {
-            k := 0
-
-            for i := x - 1; i <= x + 1; i++ {
-                for j := y - 1; j <= y + 1; j++ {
-                    r, g, b, a := convUint8(data.At(i, j).RGBA())
-                    box[k] = color.NRGBA{r, g, b, a}
-                    k++
-                }
-            }
-
+            r, g, b, a := convUint8(data.At(x, y).RGBA())
             nr, ng, nb, err = expr.evalRPN(x, y, xM, yM,
-                                           sr, sg, sb, box)
+                                           r, g, b, a,
+                                           sr, sg, sb, data)
 
             if err != nil {
                 return nil, err
@@ -110,8 +100,7 @@ func (expr Expression) jumblePixels(data image.Image, i, pixsize int, mon func(i
             sb = nb
 
             img.Set(x, y, color.NRGBA{
-                nr, ng, nb,
-                box[4].A,
+                nr, ng, nb, a,
             })
 
             if mon != nil {

@@ -48,3 +48,20 @@ func min(vals ...uint8) (m uint8) {
     }
     return
 }
+
+func fetchBox(x, y int, r, g, b uint8, data image.Image) (box [9]sum) {
+    k := 0
+    for i := x - 1; i <= x + 1; i++ {
+        for j := y - 1; j <= y + 1; j++ {
+            if i == x && j == y {
+                box[k] = sum{r, g, b}
+                k++
+                continue
+            }
+            r0, g0, b0,_ := convUint8(data.At(i, j).RGBA())
+            box[k] = sum{r0, g0, b0}
+            k++
+        }
+    }
+    return
+}
