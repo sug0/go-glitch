@@ -18,6 +18,9 @@ type sumsave struct {
     v_e,
     v_b,
     v_r,
+    v_h,
+    v_v,
+    v_d,
     v_H,
     v_L *sum
 }
@@ -136,6 +139,24 @@ func (expr *Expression) evalRPN(x, y, w, h int,
         } else if tok == "N" {
             rn, gn, bn := uint8(rand.Int() % 256), uint8(rand.Int() % 256), uint8(rand.Int() % 256)
             stk = append(stk, sum{rn, gn, bn})
+        } else if tok == "h" {
+            if saved.v_h == nil {
+                rh, gh, bh,_ := convUint8(data.At(w - x - 1, y).RGBA())
+                saved.v_h = &sum{rh, gh, bh}
+            }
+            stk = append(stk, *saved.v_h)
+        } else if tok == "v" {
+            if saved.v_v == nil {
+                rv, gv, bv,_ := convUint8(data.At(x, h - y - 1).RGBA())
+                saved.v_v = &sum{rv, gv, bv}
+            }
+            stk = append(stk, *saved.v_v)
+        } else if tok == "d" {
+            if saved.v_d == nil {
+                rd, gd, bd,_ := convUint8(data.At(w - x - 1, h - y - 1).RGBA())
+                saved.v_d = &sum{rd, gd, bd}
+            }
+            stk = append(stk, *saved.v_d)
         } else {
             if i, err := strconv.Atoi(tok); err == nil {
                 u := uint8(i)

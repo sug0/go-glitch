@@ -131,5 +131,6 @@ func validTok(tok rune) bool {
            tok == 'r' || tok == 'x' || tok == 'y' ||
            tok == 'N' || tok == 'R' || tok == 'G' ||
            tok == 'B' || tok == 'e' || tok == 'b' ||
-           tok == 'H' || tok == 'L'
+           tok == 'H' || tok == 'L' || tok == 'h' ||
+           tok == 'v' || tok == 'd'
 }
