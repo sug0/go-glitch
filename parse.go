@@ -33,7 +33,7 @@ func CompileExpression(input string) (exp *Expression, err error){
         switch {
         default:
             return nil, fmt.Errorf("invalid expression: %s", input)
-        case isWhitespace(tok):
+        case unicode.IsSpace(tok):
             continue
         case tok == '(':
             if lastWasDigit {
@@ -120,10 +120,6 @@ func CompileExpression(input string) (exp *Expression, err error){
         infix: input,
         toks: append(strings.Split(output, " "), rev...),
     }, nil
-}
-
-func isWhitespace(tok rune) bool {
-    return tok == ' ' || tok == '\n' || tok == '\t'
 }
 
 func validTok(tok rune) bool {

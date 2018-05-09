@@ -7,11 +7,11 @@ import (
     "image/draw"
 )
 
-func (expr Expression) JumblePixels(data image.Image) (image.Image, error) {
+func (expr *Expression) JumblePixels(data image.Image) (image.Image, error) {
     return expr.JumblePixelsMonitor(data, nil)
 }
 
-func (expr Expression) JumblePixelsMonitor(data image.Image, mon func(int, int)) (image.Image, error) {
+func (expr *Expression) JumblePixelsMonitor(data image.Image, mon func(int, int)) (image.Image, error) {
     var i, pixsize int
 
     if mon != nil {
@@ -22,11 +22,11 @@ func (expr Expression) JumblePixelsMonitor(data image.Image, mon func(int, int))
 }
 
 // for now support only gifs with the same dimensions per frame
-func (expr Expression) JumbleGIFPixels(data *gif.GIF) (*gif.GIF, error) {
+func (expr *Expression) JumbleGIFPixels(data *gif.GIF) (*gif.GIF, error) {
     return expr.JumbleGIFPixelsMonitor(data, nil)
 }
 
-func (expr Expression) JumbleGIFPixelsMonitor(data *gif.GIF, mon func(int, int)) (*gif.GIF, error) {
+func (expr *Expression) JumbleGIFPixelsMonitor(data *gif.GIF, mon func(int, int)) (*gif.GIF, error) {
     var i, pixsize, imgsize int
 
     if mon != nil {
@@ -40,8 +40,6 @@ func (expr Expression) JumbleGIFPixelsMonitor(data *gif.GIF, mon func(int, int))
     copy(newgif.Delay, data.Delay)
 
     overpaint := image.NewNRGBA(data.Image[0].Bounds())
-    draw.Draw(overpaint, overpaint.Bounds(), data.Image[0], image.ZP, draw.Src)
-
     var didFirst bool
 
     for _,img := range data.Image {
@@ -72,7 +70,7 @@ func (expr Expression) JumbleGIFPixelsMonitor(data *gif.GIF, mon func(int, int))
     return newgif, nil
 }
 
-func (expr Expression) jumblePixels(data image.Image, i, pixsize int, mon func(int, int)) (image.Image, error) {
+func (expr *Expression) jumblePixels(data image.Image, i, pixsize int, mon func(int, int)) (image.Image, error) {
     img := image.NewNRGBA(data.Bounds())
     xm, xM := data.Bounds().Min.X, data.Bounds().Max.X
     ym, yM := data.Bounds().Min.Y, data.Bounds().Max.Y
