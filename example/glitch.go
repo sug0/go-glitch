@@ -16,12 +16,11 @@ import (
 
     "github.com/cheggaaa/pb"
     "github.com/sugoiuguu/go-glitch"
-)
-
-const (
+    "github.com/sugoiuguu/go-exit"
 )
 
 func main() {
+    defer exit.Handler()
     var f, r *os.File
 
     out := flag.String("o", "out.png", "output file")
@@ -31,20 +30,17 @@ func main() {
 
     exprs, err := compileExprs(*exprS)
     if err != nil {
-        fmt.Fprintf(os.Stderr, "%s: couldn't compile expression %q\n", os.Args[0], *exprS)
-        os.Exit(1)
+        exit.WithMsg(os.Stderr, 1, "%s: couldn't compile expression %q", os.Args[0], *exprS)
     }
 
     if *in == "<none>" {
-        fmt.Fprintf(os.Stderr, "usage: %s -i <png, jpg or gif image>\n", os.Args[0])
-        os.Exit(1)
+        exit.WithMsg(os.Stderr, 1, "usage: %s -i <png, jpg or gif image>", os.Args[0])
     } else if *in == "-" {
         r = os.Stdin
     } else {
         r2, err := os.Open(*in)
         if err != nil {
-            fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
-            os.Exit(1)
+            exit.WithMsg(os.Stderr, 1, "%s: %s", os.Args[0], err)
         }
         r = r2
         defer r.Close()
@@ -52,8 +48,7 @@ func main() {
 
     img, err := decodeImage(r)
     if err != nil {
-        fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
-        os.Exit(1)
+        exit.WithMsg(os.Stderr, 1, "%s: %s", os.Args[0], err)
     }
 
     switch img.(type) {
@@ -68,8 +63,7 @@ func main() {
     } else {
         f2, err := os.Create(*out)
         if err != nil {
-            fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
-            os.Exit(1)
+            exit.WithMsg(os.Stderr, 1, "%s: %s", os.Args[0], err)
         }
         f = f2
         defer f.Close()
@@ -104,8 +98,7 @@ func main() {
 
         if set { bar.Finish() }
         if err != nil {
-            fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
-            os.Exit(1)
+            exit.WithMsg(os.Stderr, 1, "%s: %s", os.Args[0], err)
         }
     }
 
