@@ -44,6 +44,8 @@ func (expr *Expression) evalRPN(x, y, w, h int,
     stk := make([]sum, 0, len(expr.toks))
     saved := sumsave{}
 
+    var box [9]sum
+
     for _,tok := range expr.toks {
         if tok == "" {
             continue
@@ -90,7 +92,7 @@ func (expr *Expression) evalRPN(x, y, w, h int,
             stk = append(stk, *saved.v_r)
         } else if tok == "e" {
             if saved.v_e == nil {
-                box := fetchBox(x, y, r, g, b, data)
+                fetchBox(&box, x, y, r, g, b, data)
                 dr := box[8].r - box[0].r + box[5].r - box[3].r +
                       box[7].r - box[1].r + box[6].r - box[2].r
                 dg := box[8].g - box[0].g + box[5].g - box[3].g +
@@ -102,7 +104,7 @@ func (expr *Expression) evalRPN(x, y, w, h int,
             stk = append(stk, *saved.v_e)
         } else if tok == "b" {
             if saved.v_b == nil {
-                box := fetchBox(x, y, r, g, b, data)
+                fetchBox(&box, x, y, r, g, b, data)
                 sr := int(box[0].r) + int(box[1].r) + int(box[2].r) + int(box[3].r) +
                       int(box[4].r) + int(box[5].r) + int(box[6].r) + int(box[7].r) + int(box[8].r)
                 sg := int(box[0].g) + int(box[1].g) + int(box[2].g) + int(box[3].g) +
@@ -114,7 +116,7 @@ func (expr *Expression) evalRPN(x, y, w, h int,
             stk = append(stk, *saved.v_b)
         } else if tok == "H" {
             if saved.v_H == nil {
-                box := fetchBox(x, y, r, g, b, data)
+                fetchBox(&box, x, y, r, g, b, data)
                 rM := max(box[0].r, box[1].r, box[2].r, box[3].r,
                           box[4].r, box[5].r, box[6].r, box[7].r, box[8].r)
                 gM := max(box[0].g, box[1].g, box[2].g, box[3].g,
@@ -126,7 +128,7 @@ func (expr *Expression) evalRPN(x, y, w, h int,
             stk = append(stk, *saved.v_H)
         } else if tok == "L" {
             if saved.v_L == nil {
-                box := fetchBox(x, y, r, g, b, data)
+                fetchBox(&box, x, y, r, g, b, data)
                 rM := min(box[0].r, box[1].r, box[2].r, box[3].r,
                           box[4].r, box[5].r, box[6].r, box[7].r, box[8].r)
                 gM := min(box[0].g, box[1].g, box[2].g, box[3].g,
