@@ -18,7 +18,7 @@ func (expr *Expression) JumblePixelsMonitor(data image.Image, mon func(int, int)
         pixsize = data.Bounds().Dx() * data.Bounds().Dy()
     }
 
-    return expr.jumblePixels(data, i, pixsize, mon)
+    return expr.jumblePixels(data, &i, pixsize, mon)
 }
 
 // for now support only gifs with the same dimensions per frame
@@ -44,7 +44,7 @@ func (expr *Expression) JumbleGIFPixelsMonitor(data *gif.GIF, mon func(int, int)
 
     for _,img := range data.Image {
         // glitch image
-        newimg, err := expr.jumblePixels(img, i, pixsize, mon)
+        newimg, err := expr.jumblePixels(img, &i, pixsize, mon)
         if err != nil {
             return nil, err
         }
@@ -63,14 +63,12 @@ func (expr *Expression) JumbleGIFPixelsMonitor(data *gif.GIF, mon func(int, int)
             return nil, err
         }
         newgif.Image = append(newgif.Image, paletted)
-
-        i += imgsize
     }
 
     return newgif, nil
 }
 
-func (expr *Expression) jumblePixels(data image.Image, i, pixsize int, mon func(int, int)) (image.Image, error) {
+func (expr *Expression) jumblePixels(data image.Image, i *int, pixsize int, mon func(int, int)) (image.Image, error) {
     img := image.NewNRGBA(data.Bounds())
     xm, xM := data.Bounds().Min.X, data.Bounds().Max.X
     ym, yM := data.Bounds().Min.Y, data.Bounds().Max.Y
@@ -79,7 +77,7 @@ func (expr *Expression) jumblePixels(data image.Image, i, pixsize int, mon func(
     var nr, ng, nb, sr, sg, sb uint8
 
     if mon != nil {
-        mon(i, pixsize)
+        mon(*i, pixsize)
     }
 
     for x := xm; x < xM; x++ {
@@ -102,8 +100,8 @@ func (expr *Expression) jumblePixels(data image.Image, i, pixsize int, mon func(
             })
 
             if mon != nil {
-                mon(i, pixsize)
-                i++
+                mon(*i, pixsize)
+                *i++
             }
         }
     }
