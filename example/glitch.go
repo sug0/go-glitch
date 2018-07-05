@@ -9,6 +9,7 @@ import (
     "strings"
     "math/rand"
     "bytes"
+    "bufio"
     "image"
     "image/png"
     "image/gif"
@@ -127,39 +128,33 @@ func compileExprs(exprsS string) ([]*glitch.Expression, error) {
 
 func decodeImage(r io.Reader) (interface{}, error) {
     var willDecodeNormal bool
-    buf := new(bytes.Buffer)
+    br := bufio.NewReader(r)
 
 decodeOtherFormats:
     // on first try is false
     // so it skips this step
     if willDecodeNormal {
-        if img, _, err := image.Decode(buf); err != nil {
+        if img, _, err := image.Decode(br); err != nil {
             return nil, err
         } else {
             return img, nil
         }
     }
 
-    // read r contents into buffer
-    if _,err := buf.ReadFrom(r); err != nil {
-        return nil, err
-    }
-
     // not a valid gif, try decoding
     // another format
-    gifmagic := buf.Bytes()
-    if len(gifmagic) < 6 {
+    gifmagic, err := br.Peek(6)
+    if err != nil {
         willDecodeNormal = true
         goto decodeOtherFormats
     }
-    gifmagic = gifmagic[:6]
 
     // we found our gif -- decode that shit
     switch {
     case bytes.Equal(gifmagic, []byte("GIF87a")):
         fallthrough
     case bytes.Equal(gifmagic, []byte("GIF89a")):
-        img, err := gif.DecodeAll(buf)
+        img, err := gif.DecodeAll(br)
         if err != nil {
             return nil, err
         } else {
