@@ -19,7 +19,7 @@ import (
     "bytes"
     "unsafe"
 
-    "github.com/sugoiuguu/go-glitch"
+    "github.com/sug0/go-glitch"
 )
 
 // this does nothing...

@@ -16,8 +16,8 @@ import (
     _ "image/jpeg"
 
     "github.com/cheggaaa/pb"
-    "github.com/sugoiuguu/go-glitch"
-    "github.com/sugoiuguu/go-exit"
+    "github.com/sug0/go-glitch"
+    "github.com/sug0/go-exit"
 )
 
 func main() {
